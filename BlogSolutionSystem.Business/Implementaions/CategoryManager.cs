@@ -36,7 +36,7 @@ namespace BlogSolutionSystem.Business.Implementaions
 
         public IDataResult<int> Count()
         {
-            var categoryCount = _unitOfWork.Categories.Count(c => c.IsDeleted == true);
+            var categoryCount = _unitOfWork.Categories.Count(c => c.IsDeleted == false);
             if (categoryCount > -1)
             {
                 return new DataResult<int>(ResultStatus.Success, categoryCount);
@@ -49,7 +49,7 @@ namespace BlogSolutionSystem.Business.Implementaions
             var category = _unitOfWork.Categories.Get(c => c.Id == categoryId);
             if (category != null)
             {
-                category.IsDeleted = false;
+                category.IsDeleted = true;
                 category.ModifiedByName = modifiedByName;
                 _unitOfWork.Categories.Update(category);
                 _unitOfWork.Save();
@@ -87,7 +87,7 @@ namespace BlogSolutionSystem.Business.Implementaions
 
         public IDataResult<CategoryListDto> GetAllByDeleted()
         {
-            var category = _unitOfWork.Categories.GetAll(predicate: c => c.IsDeleted == true, includeProperties: c => c.Articles);
+            var category = _unitOfWork.Categories.GetAll(predicate: c => c.IsDeleted == false, includeProperties: c => c.Articles);
             if (category.Count > -1)
             {
                 return new DataResult<CategoryListDto>(ResultStatus.Success, new CategoryListDto

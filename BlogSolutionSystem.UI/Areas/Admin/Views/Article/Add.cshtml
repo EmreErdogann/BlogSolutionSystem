@@ -1,0 +1,86 @@
+﻿@model ArticleAddViewModel
+
+@{
+    ViewData["Title"] = "Makale Ekle";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-3 mt-2">
+    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Admin</a></li>
+    <li class="breadcrumb-item active"><a asp-area="Admin" asp-controller="Article" asp-action="Index"><i class="fas fa-newspaper"></i> Makale Listesi </a></li>
+    <li class="breadcrumb-item active"><a asp-area="Admin" asp-controller="Article" asp-action="Add"><i class="fas fa-plus"></i> Ekle </a></li>
+</ol>
+<form asp-controller="Article" asp-action="Add" method="post" enctype="multipart/form-data">
+    <div class="row mt-2">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <input type="text" id="articleTitle" placeholder="Makale Başlığı" class="form-control" asp-for="Title" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="text-editor" asp-for="Content"></textarea>
+                        <span asp-validation-for="Content" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Temel Konfigürasyonlar
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="categoryList" asp-for="CategoryId"></label>
+                        <select id="categoryList" class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"Id","Name"))">
+                            <option></option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="datePicker" asp-for="Date"></label>
+                        <input type="text" id="datePicker" value="@DateTime.Now.ToShortDateString()" class="form-control" asp-for="Date" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="Upload" asp-for="ThumbnailFile"></label>
+                        <input type="file" id="Upload" accept="image/*" class="form-control-file" asp-for="ThumbnailFile" />
+                        <span asp-validation-for="ThumbnailFile" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block mt-4">Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 mt-2">
+            <div class="card">
+                <div class="card-header">
+                    SEO Optimizasyonu
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="SeoAuthor"></label>
+                            <input type="text" class="form-control" asp-for="SeoAuthor" />
+                            <span asp-validation-for="SeoAuthor" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="SeoTags"></label>
+                            <input type="text" class="form-control" asp-for="SeoTags" />
+                            <span asp-validation-for="SeoTags" class="text-danger"> </span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label asp-for="SeoDescription"></label>
+                            <textarea class="form-control" asp-for="SeoDescription"></textarea>
+                            <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

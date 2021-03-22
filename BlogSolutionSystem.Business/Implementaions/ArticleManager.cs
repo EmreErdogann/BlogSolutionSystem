@@ -34,7 +34,7 @@ namespace BlogSolutionSystem.Business.Implementaions
 
         public IDataResult<int> Count()
         {
-            var articleCount = _unitOfWork.Articles.Count(c => c.IsDeleted == true);
+            var articleCount = _unitOfWork.Articles.Count(c => c.IsDeleted == false);
             if (articleCount > -1)
             {
                 return new DataResult<int>(ResultStatus.Success, articleCount);
@@ -50,7 +50,7 @@ namespace BlogSolutionSystem.Business.Implementaions
             {
                 var article = _unitOfWork.Articles.Get(a => a.Id == articleId);
                 article.ModifiedByName = modifiedByName;
-                article.IsDeleted = true;
+                article.IsDeleted = false;
                 _unitOfWork.Articles.Update(article);
                 _unitOfWork.Save();
                 return new Result(ResultStatus.Success, $"{article.Title} başlıklı makale başarı ile silinmiştir");

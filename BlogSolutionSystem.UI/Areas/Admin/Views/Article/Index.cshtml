@@ -1,54 +1,72 @@
-﻿@model UserListDto
+﻿@model ArticleListDto
 @{
-    ViewData["Title"] = "Kullanıcılar";
+    ViewData["Title"] = "Makaleler";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 <ol class="breadcrumb mb-3 ">
     <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Admin</a></li>
-    <li class="breadcrumb-item active"><a asp-area="Admin" asp-controller="User" asp-action="Index"><i class="fas fa-users"></i> Kullanıcı Listesi </a></li>
+    <li class="breadcrumb-item active"><a asp-area="Admin" asp-controller="Article" asp-action="Index"><i class="fas fa-newspaper"></i> Makale Listesi </a></li>
 </ol>
 
-<div id="modalPlaceHolder" aria-hidden="true"></div>
 <div class="card mb-4 mt-2">
     <div class="card-header">
         <i class="fas fa-table mr-1"></i>
-        Kullanıcılar Listesi
+        Makale Listesi
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table-bordered  table-hover table-sm" id="usersTable" width="100%" cellspacing="0">
+            <table class="table-bordered  table-hover table-sm" id="articlesTable" width="100%" cellspacing="0">
                 <thead class="table-dark">
                     <tr>
-                        <th>Id</th>
-                        <th>Kullanıcı Adı</th>
-                        <th>E-Mail Adresi</th>
-                        <th>Telefon Numarası</th>
-                        <td>Resim</td>
-                        <td>İşlemler</td>
+                        <th>#</th>
+                        <th>Kategori</th>
+                        <th>Başlık</th>
+                        <th>Resim</th>
+                        <th>Tarih</th>
+                        <th>Okunma Sayısı</th>
+                        <th>Yorum Sayısı</th>
+                        <th>Oluşturulma Tarihi</th>
+                        <th>Oluşturan Kullanıcı</th>
+                        <th>Düzenlenme Tarihi</th>
+                        <th>Düzenleyen Kullanıcı</th>
+                        <th>İşlemler</th>
                     </tr>
                 </thead>
                 <tfoot class="table-dark">
                     <tr>
-                        <th>Id</th>
-                        <th>Kullanıcı Adı</th>
-                        <th>E-Mail Adresi</th>
-                        <th>Telefon Numarası</th>
-                        <td>Resim</td>
-                        <td>İşlemler</td>
+                        <th>#</th>
+                        <th>Kategori</th>
+                        <th>Başlık</th>
+                        <th>Resim</th>
+                        <th>Tarih</th>
+                        <th>Okunma Sayısı</th>
+                        <th>Yorum Sayısı</th>
+                        <th>Oluşturulma Tarihi</th>
+                        <th>Oluşturan Kullanıcı</th>
+                        <th>Düzenlenme Tarihi</th>
+                        <th>Düzenleyen Kullanıcı</th>
+                        <th>İşlemler</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var users in Model.Users)
+                    @foreach (var articles in Model.Articles)
                     {
-                        <tr name="@users.Id">
-                            <td>@users.Id</td>
-                            <td>@users.UserName</td>
-                            <td>@users.Email</td>
-                            <td>@users.PhoneNumber</td>
-                            <td><img src="~/img/@users.Picture" class="my-image-table"/></td>
+                        <tr name="@articles.Id">
+                            <td>@articles.Id</td>
+                            <td>@articles.Category.Name</td>
+                            <td>@articles.Title</td>
+                            <td><img src="~/img/@articles.Thumbnail" class="my-image-table" /></td>
+                            <td>@articles.Date</td>
+                            <td>@articles.ViewsCount</td>
+                            <td>@articles.CommentCount</td>
+                            <td>@articles.CreatedDate</td>
+                            <td>@articles.CreatedByName</td>
+                            <td>@articles.ModifiedDate</td>
+                            <td>@articles.ModifiedByName</td>
                             <td>
-                                <button class="btn btn-primary btn-sm btn-update" data-id="@users.Id"><span class="fas fa-edit"></span> Güncelle</button>
-                                <button class="btn btn-danger btn-sm btn-delete" data-id="@users.Id"><span class="fas fa-minus-circle"></span> Sil</button>
+                                <button class="btn btn-primary btn-sm btn-update" data-id="@articles.Id"><span class="fas fa-edit"></span> Güncelle</button>
+                                <button class="btn btn-danger btn-sm btn-delete" data-id="@articles.Id"><span class="fas fa-minus-circle"></span> Sil</button>
                             </td>
                         </tr>
 
@@ -58,12 +76,10 @@
         </div>
     </div>
 </div>
-
-
 @section Scripts{
     <script>
         $(document).ready(function () {
-            $('#usersTable').DataTable({
+            $('#articlesTable').DataTable({
                 dom:
                     "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
@@ -74,8 +90,11 @@
                         attr: {
                             id: "btnAdd",
                         },
-                            className: 'btn btn-success',
+                        className: 'btn btn-success',
                         action: function (e, dt, node, config) {
+                            let url = window.location.href;
+                            url = url.replace("/Index", "");
+                            window.open(`${url}/Add`, "_self");
                         }
                     },
                     {
@@ -247,7 +266,7 @@
                         "close": "Kapat",
                         "create": {
                             "button": "Yeni",
-                           "submit": "Kaydet",
+                            "submit": "Kaydet",
                             "title": "Yeni kayıt oluştur"
                         },
                         "edit": {
@@ -276,48 +295,7 @@
                     }
                 }
             });
-            @* DataTables burda bitiyor *@
-            $(function () {
-                const url = '@Url.Action("Add","User")';
-                const placeHolderDiv = $('#modalPlaceHolder');
-                $('#btnAdd').click(function () {
-                    $.get(url).done(function (data) {
-                        placeHolderDiv.html(data);
-                        placeHolderDiv.find(".modal").modal('show');
-                        $('form').each(function () {
-                            $.data($(this)[0], 'validator', false)
-                        });
-                        $.validator.unobtrusive.parse('form');
-                    });
-                });
-                @* Ajax Get işlemi burda bitiyor _UserAddPartial modal formu *@
-                @* Ajax Post İşlemi  *@
-                placeHolderDiv.on('click', '#btnSave', function (event) {
-                    event.preventDefault();
-                    const form = $('#form-user-add');
-                    const actionUrl = form.attr('action');
-                    const dataToSend = new FormData(form.get(0));
-
-                    $.ajax({
-                        url: actionUrl,
-                        type: 'POST',
-                        data: dataToSend,
-                        processData: false,
-                        contentType: false,
-                        success: function (data) {
-                            console.log(data);
-                            window.location.reload();
-                            //window.location.href = "/Admin/User/Index";
-                        },
-                        error: function (err) {
-                            console.log(err);
-                        }
-                    });
-                });
-            });
         });
     </script>
-
 }
-
 
