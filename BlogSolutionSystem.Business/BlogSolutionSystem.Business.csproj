@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlogSolutionSystem.Core\BlogSolutionSystem.Core.csproj" />
+    <ProjectReference Include="..\BlogSolutionSystem.Data\BlogSolutionSystem.Data.csproj" />
+    <ProjectReference Include="..\BlogSolutionSystem.Entities\BlogSolutionSystem.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
