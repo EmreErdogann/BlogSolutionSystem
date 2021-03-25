@@ -84,12 +84,23 @@
     </div>
 </form>
 @section Scripts{
+    @*//Trumbowyg*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.23.0/trumbowyg.min.js" integrity="sha512-sffB9/tXFFTwradcJHhojkhmrCj0hWeaz8M05Aaap5/vlYBfLx5Y7woKi6y0NrqVNgben6OIANTGGlojPTQGEw==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.23.0/langs/tr.min.js" integrity="sha512-+HGzdrYvtA0U9cp5kJad8OpjTvUi6ywZ9z9kXFGiV3EaAR1II5X6lfulUm6/F9GKesHW+jHFfAqwXK0juybvMw==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.23.0/plugins/colors/trumbowyg.colors.min.js" integrity="sha512-iT7g30i1//3OBZsfoc5XmlULnKQKyxir582Z9fIFWI6+ohfrTdns118QYhCTt0d09aRGcE7IRvCFjw2wngaqRQ==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.23.0/plugins/emoji/trumbowyg.emoji.min.js" integrity="sha512-C1y8Ma4rukPZAgoB+9AWiKNMWXvWXGDygpcYuL/lM3YKUcZLUgFwF8brKYML73a5YeZ4y7hmY3604Tzx4f4k0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.23.0/plugins/fontfamily/trumbowyg.fontfamily.min.js" integrity="sha512-tDDpWlhruXFSzPin7PeSOo/ZklJv354ZUibgoTnthgO9lQUiNn4etCFGNwT4c3WUCZ1jWZgOVrXGMqiApe9sBg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.23.0/plugins/fontsize/trumbowyg.fontsize.min.js" integrity="sha512-DOJaq3OCe5hLSr73aQBMiJY4kc+L5UwessOl6g2oxyy7VDnZVWt+TgWVy2nh2ypf7bwoaxZmPnIMiRC5PNZecA==" crossorigin="anonymous"></script>
+    @*//Select2 *@
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    @*//Jquery UI Datepicker *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
+
     <script>
         $(document).ready(function () {
+
+            //Trumbowyg Start
             $('#text-editor').trumbowyg({
                 btns: [
                     ['viewHTML'],
@@ -105,8 +116,45 @@
                     ['removeformat'],
                     ['fullscreen'],
                     ['foreColor', 'backColor'],
-                    ['emoji']
+                    ['emoji'],
+                    ['fontfamily'],
+                    ['fontsize']
                 ]
+            });
+            //Trumbowyg Finish
+
+            //Select2 Dropdown Start
+            $("#categoryList").select2({
+                placeholder: "Lütfen kategori seçiniz",
+                allowClear: true,
+                theme: 'bootstrap4'
+            });
+            //Select2 finish
+
+            //Jquery UI Datepicker Start
+            $(function () {
+                $("#datePicker").datepicker({
+                    closeText: "kapat",
+                    prevText: "&#x3C;geri",
+                    nextText: "ileri&#x3e",
+                    currentText: "bugün",
+                    monthNames: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+                        "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"],
+                    monthNamesShort: ["Oca", "Şub", "Mar", "Nis", "May", "Haz",
+                        "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"],
+                    dayNames: ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"],
+                    dayNamesShort: ["Pz", "Pt", "Sa", "Ça", "Pe", "Cu", "Ct"],
+                    dayNamesMin: ["Pz", "Pt", "Sa", "Ça", "Pe", "Cu", "Ct"],
+                    weekHeader: "Hf",
+                    dateFormat: "dd.mm.yy",
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: "",
+                    duration: 350, //kaç saniye veya dakika sonra açılacak
+                    minDate: 0,
+                    maxDate: 30
+                });
             });
         });
 
@@ -114,7 +162,14 @@
 }
 
 @section Styles{
+    @*//Trumbowyg*@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.23.0/ui/trumbowyg.min.css" integrity="sha512-iw/TO6rC/bRmSOiXlanoUCVdNrnJBCOufp2s3vhTPyP1Z0CtTSBNbEd5wIo8VJanpONGJSyPOZ5ZRjZ/ojmc7g==" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.23.0/plugins/colors/ui/trumbowyg.colors.min.css" integrity="sha512-8dXb2ITE13jLrqqGDVTU8kKl9vHZI9E4TpZGyfhevHeF+/cWWA17wVj+SKX3+QHqZISiGihaCOyK3nA152ShDg==" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.23.0/plugins/emoji/ui/trumbowyg.emoji.min.css" integrity="sha512-T2q2UM7Pm3t6Fu0VTRcuVMuaQf3/wP1aFi+/NyvpoVV0VBxN1Pqlmq57Jfg1IPRQCfFQOPLKBwoXA28+1gd/Ow==" crossorigin="anonymous" />
+    @*//Select2*@
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="~/css/select2-bootstrap4.min.css" rel="stylesheet" />
+    @*//Jquery UI Datepicker*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" integrity="sha512-ug/p2fTnYRx/TfVgL8ejTWolaq93X+48/FLS9fKf7AiazbxHkSEENdzWkOxbjJO/X1grUPt9ERfBt21iLh2dxg==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/theme.min.css" integrity="sha512-adRIgePtMQgAVB+Mfkhl+Nyva/WllWlFzJyyhYCjznU3Di+Z4SsYi1Rqsep11PYLpUsW/SjE4NXUkIjabQJCOQ==" crossorigin="anonymous" />
 }
