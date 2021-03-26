@@ -52,23 +52,23 @@
                 <tbody>
                     @foreach (var articles in Model.Articles)
                     {
-                        <tr name="@articles.Id">
-                            <td>@articles.Id</td>
-                            <td>@articles.Category.Name</td>
-                            <td>@articles.Title</td>
-                            <td><img src="~/img/@articles.Thumbnail" class="my-image-table" /></td>
-                            <td>@articles.Date</td>
-                            <td>@articles.ViewsCount</td>
-                            <td>@articles.CommentCount</td>
-                            <td>@articles.CreatedDate</td>
-                            <td>@articles.CreatedByName</td>
-                            <td>@articles.ModifiedDate</td>
-                            <td>@articles.ModifiedByName</td>
-                            <td>
-                                <button class="btn btn-primary btn-sm btn-update" data-id="@articles.Id"><span class="fas fa-edit"></span> Güncelle</button>
-                                <button class="btn btn-danger btn-sm btn-delete" data-id="@articles.Id"><span class="fas fa-minus-circle"></span> Sil</button>
-                            </td>
-                        </tr>
+                    <tr name="@articles.Id">
+                        <td>@articles.Id</td>
+                        <td>@articles.Category.Name</td>
+                        <td>@articles.Title</td>
+                        <td><img src="~/img/@articles.Thumbnail" class="my-image-table" /></td>
+                        <td>@articles.Date</td>
+                        <td>@articles.ViewsCount</td>
+                        <td>@articles.CommentCount</td>
+                        <td>@articles.CreatedDate.ToShortDateString()</td>
+                        <td>@articles.CreatedByName</td>
+                        <td>@articles.ModifiedDate.ToShortDateString()</td>
+                        <td>@articles.ModifiedByName</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm btn-update" data-id="@articles.Id" asp-area="Admin" asp-controller="Article" asp-action="Update" asp-route-articleId="@articles.Id"><span class="fas fa-edit"></span></a>
+                            <button class="btn btn-danger btn-sm btn-delete" data-id="@articles.Id"><span class="fas fa-minus-circle"></span></button>
+                        </td>
+                    </tr>
 
                     }
                 </tbody>

@@ -1,6 +1,8 @@
 using BlogSolutionSystem.Business.AutoMapper.Profiles;
 using BlogSolutionSystem.Business.Extensions;
 using BlogSolutionSystem.UI.AutoMapper.Profiles;
+using BlogSolutionSystem.UI.Helpers.Abstract;
+using BlogSolutionSystem.UI.Helpers.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,8 +23,10 @@ namespace BlogSolutionSystem.UI
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddSession();
-            services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile), typeof(UserProfile));
+            services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile), typeof(UserProfile), typeof(ViewModelsProfile));
             services.LoadMyServices();
+            services.AddScoped<IImageHelper, ImageHelper>();
+
             services.ConfigureApplicationCookie(opt =>
             {
                 opt.LoginPath = new PathString("/Admin/User/Login");

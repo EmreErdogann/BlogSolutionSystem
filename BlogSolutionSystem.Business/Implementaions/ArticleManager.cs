@@ -27,6 +27,7 @@ namespace BlogSolutionSystem.Business.Implementaions
             article.CreatedDate = DateTime.Now;
             article.CreatedByName = createdByName;
             article.ModifiedByName = createdByName;
+            article.UserId = 1;
             _unitOfWork.Articles.Add(article);
             _unitOfWork.Save();
             return new Result(ResultStatus.Success, $"{articleAddDto.Title} başlıklı makale başarı ile eklenmiştir");

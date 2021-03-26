@@ -26,8 +26,6 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Models
 
         [DisplayName("Küçük Resim")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir")]
-        [MaxLength(250, ErrorMessage = "{0} alanı {1} karakterden büyük olmamalıdır")]
-        [MinLength(5, ErrorMessage = "{0} alanı {1} karakterden küçük olmamalıdır")]
         public IFormFile ThumbnailFile { get; set; }
 
 
