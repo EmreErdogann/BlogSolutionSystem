@@ -12,7 +12,8 @@ namespace BlogSolutionSystem.UI.AutoMapper.Profiles
     {
         public ViewModelsProfile()
         {
-            CreateMap<ArticleAddViewModel, ArticleAddDto>();
+            CreateMap<ArticleAddViewModel, ArticleAddDto>().ReverseMap();
+            CreateMap<ArticleUpdateDto, ArticleUpdateViewModel>().ReverseMap();
         }
     }
 }

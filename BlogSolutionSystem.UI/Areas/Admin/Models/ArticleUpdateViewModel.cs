@@ -1,13 +1,15 @@
 ﻿using BlogSolutionSystem.Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace BlogSolutionSystem.Entities.Dtos.ArticleD
+namespace BlogSolutionSystem.UI.Areas.Admin.Models
 {
-    public class ArticleUpdateDto
+    public class ArticleUpdateViewModel
     {
         [Required]
         public int Id { get; set; }
@@ -24,12 +26,11 @@ namespace BlogSolutionSystem.Entities.Dtos.ArticleD
         [MinLength(5, ErrorMessage = "{0} alanı {1} karakterden küçük olmamalıdır")]
         public string Content { get; set; }
 
-
-        [DisplayName("Thumbnail")]
-        [Required(ErrorMessage = "{0} alanı boş geçilmemelidir")]
-        [MaxLength(250, ErrorMessage = "{0} alanı {1} karakterden büyük olmamalıdır")]
-        [MinLength(5, ErrorMessage = "{0} alanı {1} karakterden küçük olmamalıdır")]
+        [DisplayName("Küçük Resim")]
         public string Thumbnail { get; set; }
+
+        [DisplayName("Küçük Resim Ekle")]
+        public IFormFile ThumbnailFile { get; set; }
 
 
         [DisplayName("Tarih")]
@@ -37,19 +38,19 @@ namespace BlogSolutionSystem.Entities.Dtos.ArticleD
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Date { get; set; }
 
-        [DisplayName("Seo Yazar")]
+        [DisplayName("Yazar Adı")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir")]
         [MaxLength(50, ErrorMessage = "{0} alanı {1} karakterden büyük olmamalıdır")]
         [MinLength(0, ErrorMessage = "{0} alanı {1} karakterden küçük olmamalıdır")]
         public string SeoAuthor { get; set; }
 
-        [DisplayName("Seo Açıklaması")]
+        [DisplayName("Makale Açıklaması")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir")]
         [MaxLength(150, ErrorMessage = "{0} alanı {1} karakterden büyük olmamalıdır")]
         [MinLength(5, ErrorMessage = "{0} alanı {1} karakterden küçük olmamalıdır")]
         public string SeoDescription { get; set; }
 
-        [DisplayName("Seo Etiketleri")]
+        [DisplayName("Makale Etiketleri")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir")]
         [MaxLength(70, ErrorMessage = "{0} alanı {1} karakterden büyük olmamalıdır")]
         [MinLength(5, ErrorMessage = "{0} alanı {1} karakterden küçük olmamalıdır")]
@@ -58,9 +59,10 @@ namespace BlogSolutionSystem.Entities.Dtos.ArticleD
         [DisplayName("Kategori")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir")]
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public IList<Category> Categories { get; set; }
 
         [Required]
         public int UserId { get; set; }
+
     }
 }

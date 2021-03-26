@@ -10,9 +10,10 @@ namespace BlogSolutionSystem.Business.Interfaces
     public interface IArticleService
     {
         IDataResult<ArticleDto> Get(int articleId);
+        IDataResult<ArticleUpdateDto> GetArticleUpdate(int articleId);
         IDataResult<ArticleListDto> GetAll();
         IDataResult<ArticleListDto> GetAllByDeleted();
-        IResult Add(ArticleAddDto articleAddDto, string createdByName);
+        IResult Add(ArticleAddDto articleAddDto, string createdByName, int userId);
         IResult Update(ArticleUpdateDto articleUpdateDto, string modifeidByName);
         IResult Delete(int articleId, string modifiedByName);
         IResult HardDelete(int articleId);

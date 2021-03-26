@@ -13,6 +13,7 @@ namespace BlogSolutionSystem.Business.AutoMapper.Profiles
         {
             CreateMap<ArticleAddDto, Article>().ReverseMap();
             CreateMap<ArticleUpdateDto, Article>().ReverseMap();
+           
         }
     }
 }

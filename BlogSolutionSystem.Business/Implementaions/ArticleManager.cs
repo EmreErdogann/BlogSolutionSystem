@@ -21,13 +21,13 @@ namespace BlogSolutionSystem.Business.Implementaions
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public IResult Add(ArticleAddDto articleAddDto, string createdByName)
+        public IResult Add(ArticleAddDto articleAddDto, string createdByName, int userId)
         {
             var article = _mapper.Map<Article>(articleAddDto);
             article.CreatedDate = DateTime.Now;
             article.CreatedByName = createdByName;
             article.ModifiedByName = createdByName;
-            article.UserId = 1;
+            article.UserId = userId;
             _unitOfWork.Articles.Add(article);
             _unitOfWork.Save();
             return new Result(ResultStatus.Success, $"{articleAddDto.Title} başlıklı makale başarı ile eklenmiştir");
@@ -51,7 +51,7 @@ namespace BlogSolutionSystem.Business.Implementaions
             {
                 var article = _unitOfWork.Articles.Get(a => a.Id == articleId);
                 article.ModifiedByName = modifiedByName;
-                article.IsDeleted = false;
+                article.IsDeleted = true;
                 _unitOfWork.Articles.Update(article);
                 _unitOfWork.Save();
                 return new Result(ResultStatus.Success, $"{article.Title} başlıklı makale başarı ile silinmiştir");
@@ -98,6 +98,18 @@ namespace BlogSolutionSystem.Business.Implementaions
             }
             return new DataResult<ArticleListDto>(ResultStatus.Error, "Böyle bir makale bulunamadı", null);
 
+        }
+
+        public IDataResult<ArticleUpdateDto> GetArticleUpdate(int articleId)
+        {
+            var result = _unitOfWork.Articles.Any(c => c.Id == articleId);
+            if (result)
+            {
+                var article = _unitOfWork.Articles.Get(c => c.Id == articleId);
+                var articleUpdateDto = _mapper.Map<ArticleUpdateDto>(article);
+                return new DataResult<ArticleUpdateDto>(ResultStatus.Success, articleUpdateDto);
+            }
+            return new DataResult<ArticleUpdateDto>(ResultStatus.Error, "", null);
         }
 
         public IResult HardDelete(int articleId)
