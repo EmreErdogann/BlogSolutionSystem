@@ -23,7 +23,7 @@ namespace BlogSolutionSystem.UI
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation().AddNToastNotifyToastr();
             services.AddSession();
-            services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile), typeof(UserProfile), typeof(ViewModelsProfile));
+            services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile), typeof(UserProfile), typeof(ViewModelsProfile),typeof(CommentProfile));
             services.LoadMyServices();
             services.AddScoped<IImageHelper, ImageHelper>();
 

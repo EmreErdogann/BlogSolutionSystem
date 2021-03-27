@@ -79,33 +79,83 @@ namespace BlogSolutionSystem.Data.Mappings
                     ModifiedDate = DateTime.Now,
                     Note = "TypeScript Blog Kategorisi"
                 },
-
-                  new Category
-                  {
-                      Id = 5,
-                      Name = "Php",
-                      Description = "Php Programlama Dili ile İlgili En Güncel Bilgiler",
-                      IsDeleted = false,
-                      CreatedByName = "InitialCreate",
-                      CreatedDate = DateTime.Now,
-                      ModifiedByName = "InitialCreate",
-                      ModifiedDate = DateTime.Now,
-                      Note = "Php Blog Kategorisi"
-                  },
-
-                  new Category
-                  {
-                      Id = 6,
-                      Name = "React Native",
-                      Description = "React Native Programlama Dili ile İlgili En Güncel Bilgiler",
-                      IsDeleted = false,
-                      CreatedByName = "InitialCreate",
-                      CreatedDate = DateTime.Now,
-                      ModifiedByName = "InitialCreate",
-                      ModifiedDate = DateTime.Now,
-                      Note = "React Native Blog Kategorisi"
-                  }
-            );
+                new Category
+                {
+                    Id = 5,
+                    Name = "Java",
+                    Description = "Java Programlama Dili ile İlgili En Güncel Bilgiler",
+                    IsDeleted = false,
+                    CreatedByName = "InitialCreate",
+                    CreatedDate = DateTime.Now,
+                    ModifiedByName = "InitialCreate",
+                    ModifiedDate = DateTime.Now,
+                    Note = "Java Blog Kategorisi",
+                }
+                ,
+                new Category
+                {
+                    Id = 6,
+                    Name = "Python",
+                    Description = "Python Programlama Dili ile İlgili En Güncel Bilgiler",
+                    IsDeleted = false,
+                    CreatedByName = "InitialCreate",
+                    CreatedDate = DateTime.Now,
+                    ModifiedByName = "InitialCreate",
+                    ModifiedDate = DateTime.Now,
+                    Note = "Python Blog Kategorisi",
+                }
+                ,
+                new Category
+                {
+                    Id = 7,
+                    Name = "Php",
+                    Description = "Php Programlama Dili ile İlgili En Güncel Bilgiler",
+                    IsDeleted = false,
+                    CreatedByName = "InitialCreate",
+                    CreatedDate = DateTime.Now,
+                    ModifiedByName = "InitialCreate",
+                    ModifiedDate = DateTime.Now,
+                    Note = "Php Blog Kategorisi",
+                }
+                ,
+                new Category
+                {
+                    Id = 8,
+                    Name = "Kotlin",
+                    Description = "Kotlin Programlama Dili ile İlgili En Güncel Bilgiler",
+                    IsDeleted = false,
+                    CreatedByName = "InitialCreate",
+                    CreatedDate = DateTime.Now,
+                    ModifiedByName = "InitialCreate",
+                    ModifiedDate = DateTime.Now,
+                    Note = "Kotlin Blog Kategorisi",
+                }
+                ,
+                new Category
+                {
+                    Id = 9,
+                    Name = "Swift",
+                    Description = "Swift Programlama Dili ile İlgili En Güncel Bilgiler",
+                    IsDeleted = false,
+                    CreatedByName = "InitialCreate",
+                    CreatedDate = DateTime.Now,
+                    ModifiedByName = "InitialCreate",
+                    ModifiedDate = DateTime.Now,
+                    Note = "Swift Blog Kategorisi",
+                }
+                ,
+                new Category
+                {
+                    Id = 10,
+                    Name = "Ruby",
+                    Description = "Ruby Programlama Dili ile İlgili En Güncel Bilgiler",
+                    IsDeleted = false,
+                    CreatedByName = "InitialCreate",
+                    CreatedDate = DateTime.Now,
+                    ModifiedByName = "InitialCreate",
+                    ModifiedDate = DateTime.Now,
+                    Note = "Ruby Blog Kategorisi",
+                });
         }
     }
 }
