@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,12 +24,15 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IWebHostEnvironment _env;
         private readonly IMapper _mapper;
-        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment env, IMapper mapper)
+        private readonly IToastNotification _toastNotification;
+
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment env, IMapper mapper, IToastNotification toastNotification)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _env = env;
             _mapper = mapper;
+            _toastNotification = toastNotification;
         }
 
 
@@ -193,7 +197,7 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
                     {
                         ImageDelete(oldUserPicture);
                     }
-                    TempData.Add("SuccessMessage", $"{updatedUser.UserName} adlı kullanıcı başarıyla güncellenmiştir.");
+                    _toastNotification.AddSuccessToastMessage($"Bilgileriniz başarı ile güncellenmiştir");
                     return View(updateDto);
                 }
                 else
@@ -233,7 +237,7 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
                         await _userManager.UpdateSecurityStampAsync(user);
                         await _signInManager.SignOutAsync();
                         await _signInManager.PasswordSignInAsync(user, userPasswordChangeDto.NewPassword, true, false);
-                        TempData.Add("SuccessMessage", $"Şifreniz başarıyla değiştirilmiştir.");
+                        _toastNotification.AddSuccessToastMessage($"Şifreniz başarı ile değiştirilmiştir");
                         return View();
                     }
                 }

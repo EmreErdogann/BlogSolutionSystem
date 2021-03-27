@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using BlogSolutionSystem.Entities.Concrete;
 using System.Text.Json;
+using NToastNotify;
 
 namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
 {
@@ -21,11 +22,13 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
     {
         private readonly IArticleService _articleService;
         private readonly ICategoryService _categoryService;
+        private readonly IToastNotification _toastNotification;
 
-        public ArticleController(IArticleService articleService, ICategoryService categoryService, UserManager<User> userManager, IMapper mapper, IImageHelper imageHelper) : base(userManager, mapper, imageHelper)
+        public ArticleController(IArticleService articleService, ICategoryService categoryService, UserManager<User> userManager, IMapper mapper, IImageHelper imageHelper, IToastNotification toastNotification) : base(userManager, mapper, imageHelper)
         {
             _articleService = articleService;
             _categoryService = categoryService;
+            _toastNotification = toastNotification;
         }
         public IActionResult Index()
         {
@@ -59,7 +62,10 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
                 var result = _articleService.Add(articleAddDto, LoggedInUser.UserName, LoggedInUser.Id);
                 if (result.ResultStatus == ResultStatus.Success)
                 {
-                    TempData.Add("SuccessMessage", result.Message);
+                    _toastNotification.AddSuccessToastMessage(result.Message, new ToastrOptions
+                    {
+                        Title = "Başarılı İşlem!"
+                    });
                     return RedirectToAction("Index");
                 }
                 else
@@ -107,7 +113,10 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
                     {
                         ImageHelper.Delete(oldThumbnail);
                     }
-                    TempData.Add("SuccessMessage", result.Message);
+                    _toastNotification.AddSuccessToastMessage(result.Message, new ToastrOptions
+                    {
+                        Title = "Başarılı İşlem!"
+                    });
                     return RedirectToAction("Index");
                 }
             }

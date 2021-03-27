@@ -21,7 +21,7 @@ namespace BlogSolutionSystem.UI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation().AddNToastNotifyToastr();
             services.AddSession();
             services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile), typeof(UserProfile), typeof(ViewModelsProfile));
             services.LoadMyServices();
@@ -57,6 +57,7 @@ namespace BlogSolutionSystem.UI
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseNToastNotify();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapAreaControllerRoute(
