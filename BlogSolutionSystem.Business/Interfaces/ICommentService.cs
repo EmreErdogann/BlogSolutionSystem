@@ -12,6 +12,7 @@ namespace BlogSolutionSystem.Business.Interfaces
         IDataResult<CommentUpdateDto> GetCommentUpdateDto(int commentId);
         IDataResult<CommentListDto> GetAll();
         IDataResult<CommentListDto> GetAllByDeleted();
+        IDataResult<CommentDto> Approve(int commentId, string modifiedByName);
         IResult Add(CommentAddDto commentAddDto);
         IResult Update(CommentUpdateDto commentUpdateDto, string modifiedByName);
         IResult Delete(int commentId, string modifiedByName);

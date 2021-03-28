@@ -15,7 +15,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="commentsTable" width="100%" cellspacing="0">
+            <table class="table-bordered  table-hover table-sm" id="commentsTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -342,6 +342,24 @@
                     });
                 });
 
+            $(function () {
+
+                const url = '/Admin/Comment/GetDetail/';
+                const placeHolderDiv = $('#modalPlaceHolder');
+                $(document).on('click',
+                    '.btn-detail',
+                    function (event) {
+                        event.preventDefault();
+                        const id = $(this).attr('data-id');
+                        $.get(url, { commentId: id }).done(function (data) {
+                            placeHolderDiv.html(data);
+                            placeHolderDiv.find('.modal').modal('show');
+                        }).fail(function (err) {
+                            toastr.error(`${err.responseText}`, 'Hata!');
+                        });
+                    });
+
+            });
         });
     </script>
 }

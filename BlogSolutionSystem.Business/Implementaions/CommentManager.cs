@@ -31,6 +31,21 @@ namespace BlogSolutionSystem.Business.Implementaions
 
         }
 
+        public IDataResult<CommentDto> Approve(int commentId, string modifiedByName)
+        {
+            var comment = _unitOfWork.Comment.Get(c => c.Id == commentId, c => c.Article);
+            if (comment != null)
+            {
+                comment.IsActive = true;
+                comment.ModifiedByName = modifiedByName;
+                comment.ModifiedDate = DateTime.Now;
+                var updatedComment = _unitOfWork.Comment.Update(comment);
+                _unitOfWork.Save();
+                return new DataResult<CommentDto>(ResultStatus.Success, $"{comment.Id} no'lu yorum başarıyla onaylanmıştır", new CommentDto { Comment = updatedComment });
+            }
+            return new DataResult<CommentDto>(ResultStatus.Error, "", null);
+        }
+
         public IDataResult<int> Count()
         {
             var commentCount = _unitOfWork.Comment.Count(c => c.IsDeleted == false);
@@ -44,14 +59,14 @@ namespace BlogSolutionSystem.Business.Implementaions
 
         public IResult Delete(int commentId, string modifiedByName)
         {
-            var comment =  _unitOfWork.Comment.Get(c => c.Id == commentId);
+            var comment = _unitOfWork.Comment.Get(c => c.Id == commentId);
             if (comment != null)
             {
                 comment.IsDeleted = true;
                 comment.ModifiedByName = modifiedByName;
                 comment.ModifiedDate = DateTime.Now;
-                var deletedComment =  _unitOfWork.Comment.Update(comment);
-                 _unitOfWork.Save();
+                var deletedComment = _unitOfWork.Comment.Update(comment);
+                _unitOfWork.Save();
             }
             return new Result(ResultStatus.Error, "Böyle bir makale bulunamadı");
 

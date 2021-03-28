@@ -57,7 +57,7 @@
                             <td>@articles.Category.Name</td>
                             <td>@articles.Title</td>
                             <td><img src="~/img/@articles.Thumbnail" class="my-image-table" /></td>
-                            <td>@articles.Date</td>
+                            <td>@articles.Date.ToShortDateString()</td>
                             <td>@articles.ViewsCount</td>
                             <td>@articles.CommentCount</td>
                             <td>@articles.CreatedDate.ToShortDateString()</td>
