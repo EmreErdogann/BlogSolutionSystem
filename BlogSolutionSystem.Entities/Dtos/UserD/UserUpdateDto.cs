@@ -13,6 +13,7 @@ namespace BlogSolutionSystem.Entities.Dtos.UserD
     {
         [Required]
         public int Id { get; set; }
+
         [DisplayName("Kullanıcı Adı")]
         [Required(ErrorMessage = "{0} boş geçilmemelidir.")]
         [MaxLength(50, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
@@ -35,5 +36,56 @@ namespace BlogSolutionSystem.Entities.Dtos.UserD
         public IFormFile PictureFile { get; set; }
         [DisplayName("Resim")]
         public string Picture { get; set; }
+
+
+        [DisplayName("Adı")]
+        [MaxLength(30, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
+        [MinLength(2, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
+        public string FirstName { get; set; }
+
+        [DisplayName("Soyadı")]
+        [MaxLength(30, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
+        [MinLength(2, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
+        public string LastName { get; set; }
+
+        [DisplayName("Hakkında")]
+        [MaxLength(1000, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
+        [MinLength(5, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
+        public string About { get; set; }
+
+        [DisplayName("Twitter")]
+        [MaxLength(250, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
+        [MinLength(20, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
+        public string TwitterLink { get; set; }
+
+        [DisplayName("Facebook")]
+        [MaxLength(250, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
+        [MinLength(20, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
+        public string FacebookLink { get; set; }
+
+        [DisplayName("Instagram")]
+        [MaxLength(250, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
+        [MinLength(20, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
+        public string InstagramLink { get; set; }
+
+        [DisplayName("LinkedIn")]
+        [MaxLength(250, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
+        [MinLength(20, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
+        public string LinkedInLink { get; set; }
+
+        [DisplayName("Youtube")]
+        [MaxLength(250, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
+        [MinLength(20, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
+        public string YoutubeLink { get; set; }
+
+        [DisplayName("GitHub")]
+        [MaxLength(250, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
+        [MinLength(20, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
+        public string GitHubLink { get; set; }
+
+        [DisplayName("Website")]
+        [MaxLength(250, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
+        [MinLength(20, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
+        public string WebsiteLink { get; set; }
     }
 }

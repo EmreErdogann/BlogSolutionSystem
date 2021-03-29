@@ -34,8 +34,8 @@ namespace BlogSolutionSystem.UI
 
             services.ConfigureApplicationCookie(opt =>
             {
-                opt.LoginPath = new PathString("/Admin/User/Login");
-                opt.LogoutPath = new PathString("/Admin/User/Logout");
+                opt.LoginPath = new PathString("/Admin/Auth/Login");
+                opt.LogoutPath = new PathString("/Admin/Auth/Logout");
                 opt.Cookie = new CookieBuilder
                 {
                     Name = "BlogSolutionSystem",
@@ -46,7 +46,7 @@ namespace BlogSolutionSystem.UI
                 };
                 opt.SlidingExpiration = true;
                 opt.ExpireTimeSpan = System.TimeSpan.FromDays(7);
-                opt.AccessDeniedPath = new PathString("/Admin/User/AccessDenied");
+                opt.AccessDeniedPath = new PathString("/Admin/Auth/AccessDenied");
             });
         }
 

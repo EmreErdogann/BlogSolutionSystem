@@ -19,39 +19,49 @@
             <table class="table-bordered  table-hover table-sm" id="usersTable" width="100%" cellspacing="0">
                 <thead class="table-dark">
                     <tr>
-                        <th>Id</th>
+                        <th>ID</th>
                         <th>Kullanıcı Adı</th>
-                        <th>E-Mail Adresi</th>
+                        <th>E-Posta Adresi</th>
+                        <th>Adı</th>
+                        <th>Soyadı</th>
                         <th>Telefon Numarası</th>
-                        <td>Resim</td>
-                        <td>İşlemler</td>
+                        <th>Hakkında</th>
+                        <th>Resim</th>
+                        <th>İşlemler</th>
                     </tr>
                 </thead>
                 <tfoot class="table-dark">
                     <tr>
-                        <th>Id</th>
+                        <th>ID</th>
                         <th>Kullanıcı Adı</th>
-                        <th>E-Mail Adresi</th>
+                        <th>E-Posta Adresi</th>
+                        <th>Adı</th>
+                        <th>Soyadı</th>
                         <th>Telefon Numarası</th>
-                        <td>Resim</td>
-                        <td>İşlemler</td>
+                        <th>Hakkında</th>
+                        <th>Resim</th>
+                        <th>İşlemler</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var users in Model.Users)
+                    @foreach (var user in Model.Users)
                     {
-                        <tr name="@users.Id">
-                            <td>@users.Id</td>
-                            <td>@users.UserName</td>
-                            <td>@users.Email</td>
-                            <td>@users.PhoneNumber</td>
-                            <td><img src="~/img/@users.Picture" class="my-image-table"/></td>
+                        <tr name="@user.Id">
+                            <td>@user.Id</td>
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td>@user.PhoneNumber</td>
+                            <td>@(user.About.Length>75 ? user.About.Substring(0,75):user.About)</td>
+                            <td><img src="~/img/@user.Picture" alt="@user.UserName" class="my-image-table" /></td>
                             <td>
-                                <button class="btn btn-primary btn-sm btn-update" data-id="@users.Id"><span class="fas fa-edit"></span> Güncelle</button>
-                                <button class="btn btn-danger btn-sm btn-delete" data-id="@users.Id"><span class="fas fa-minus-circle"></span> Sil</button>
+                                <button class="btn btn-info btn-sm btn-detail" data-id="@user.Id"><span class="fas fa-newspaper"></span></button>
+                                <button class="btn btn-warning btn-sm btn-assign" data-id="@user.Id"><span class="fas fa-user-shield"></span></button>
+                                <button class="btn btn-primary btn-sm btn-update" data-id="@user.Id"><span class="fas fa-edit"></span></button>
+                                <button class="btn btn-danger btn-sm btn-delete" data-id="@user.Id"><span class="fas fa-minus-circle"></span></button>
                             </td>
                         </tr>
-
                     }
                 </tbody>
             </table>
@@ -314,6 +324,26 @@
                         }
                     });
                 });
+            });
+
+            // Get Detail Ajax Operation
+            $(function () {
+
+                const url = '/Admin/User/GetDetail/';
+                const placeHolderDiv = $('#modalPlaceHolder');
+                $(document).on('click',
+                    '.btn-detail',
+                    function (event) {
+                        event.preventDefault();
+                        const id = $(this).attr('data-id');
+                        $.get(url, { userId: id }).done(function (data) {
+                            placeHolderDiv.html(data);
+                            placeHolderDiv.find('.modal').modal('show');
+                        }).fail(function (err) {
+                            toastr.error(`${err.responseText}`, 'Hata!');
+                        });
+                    });
+
             });
         });
     </script>

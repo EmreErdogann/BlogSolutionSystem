@@ -17,7 +17,7 @@ namespace BlogSolutionSystem.Data.Mappings
             builder.HasKey(r => new { r.UserId, r.RoleId });
 
             // Maps to the AspNetUserRoles table
-            builder.ToTable("AspNetUserRoles");
+            builder.ToTable("UserRoles");
 
             builder.HasData(
                 new UserRole

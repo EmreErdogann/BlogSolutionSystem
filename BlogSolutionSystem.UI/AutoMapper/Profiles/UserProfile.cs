@@ -14,6 +14,7 @@ namespace BlogSolutionSystem.UI.AutoMapper.Profiles
         {
             CreateMap<UserAddDto, User>();
             CreateMap<UserUpdateDto, User>().ReverseMap();
+            //CreateMap<UserDto, User>().ReverseMap();
         }
     }
 }

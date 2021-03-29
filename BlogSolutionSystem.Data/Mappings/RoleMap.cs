@@ -52,7 +52,15 @@ namespace BlogSolutionSystem.Data.Mappings
                     Name = "Editor",
                     NormalizedName = "EDITOR",
                     ConcurrencyStamp = Guid.NewGuid().ToString()
-                });
+                },
+                new Role
+                {
+                    Id = 3,
+                    Name = "SuperAdmin",
+                    NormalizedName = "SUPERADMIN",
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                }
+                );
         }
     }
 }

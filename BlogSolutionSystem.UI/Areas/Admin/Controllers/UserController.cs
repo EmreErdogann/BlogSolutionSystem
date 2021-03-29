@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using BlogSolutionSystem.Core.Utilities.Extensions;
+using BlogSolutionSystem.Core.Utilities.Results.ComplexTypes;
+using BlogSolutionSystem.Entities.ComplexTypes;
 using BlogSolutionSystem.Entities.Concrete;
 using BlogSolutionSystem.Entities.Dtos.UserD;
+using BlogSolutionSystem.UI.Helpers.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,34 +21,21 @@ using System.Threading.Tasks;
 namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
-        private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IWebHostEnvironment _env;
-        private readonly IMapper _mapper;
         private readonly IToastNotification _toastNotification;
 
-        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, IWebHostEnvironment env, IMapper mapper, IToastNotification toastNotification)
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IImageHelper imageHelper, IToastNotification toastNotification) : base(userManager, mapper, imageHelper)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
-            _env = env;
-            _mapper = mapper;
             _toastNotification = toastNotification;
-        }
-
-
-        [HttpGet]
-        public ViewResult AccessDenied()
-        {
-            return View();
         }
 
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await UserManager.Users.ToListAsync();
             return View(new UserListDto
             {
                 Users = users
@@ -64,9 +54,11 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
             var sonuc = false;
             if (ModelState.IsValid)
             {
-                userAddDto.Picture = await ImageUpload(userAddDto.UserName, userAddDto.PictureFile);
-                var user = _mapper.Map<User>(userAddDto);
-                var result = await _userManager.CreateAsync(user, userAddDto.Password);
+                var uploadedImageDtoResult = await ImageHelper.Upload(userAddDto.UserName, userAddDto.PictureFile, PictureType.User);
+                userAddDto.Picture = uploadedImageDtoResult.ResultStatus == ResultStatus.Success
+                    ? uploadedImageDtoResult.Data.FullName : "userImages/defaultUser.png";
+                var user = Mapper.Map<User>(userAddDto);
+                var result = await UserManager.CreateAsync(user, userAddDto.Password);
                 if (result.Succeeded)
                 {
                     return Json(sonuc);
@@ -82,123 +74,46 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
             return Json(sonuc);
         }
 
-        public async Task<string> ImageUpload(string userName, IFormFile pictureFile)
-        {
-            // ~/img/user.Picture
-            string wwwroot = _env.WebRootPath;
-            // emreerdoğan     
-            // string fileName2 = Path.GetFileNameWithoutExtension(pictureFile.FileName);
-            //.png
-            string fileExtension = Path.GetExtension(pictureFile.FileName);
-            DateTime dateTime = DateTime.Now;
-            // EmreErdoğan_587_5_38_12_3_10_2020.png
-            string fileName = $"{userName}_{dateTime.FullDateAndTimeStringWithUnderscore()}{fileExtension}";
-            var path = Path.Combine($"{wwwroot}/img", fileName);
-            await using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await pictureFile.CopyToAsync(stream);
-            }
-
-            return fileName; // EmreErdoğan_587_5_38_12_3_10_2020.png - "~/img/user.Picture"
-        }
-
-        public bool ImageDelete(string pictureName)
-        {
-            string wwwroot = _env.WebRootPath;
-            var fileToDelete = Path.Combine($"{wwwroot}/img", pictureName);
-            if (System.IO.File.Exists(fileToDelete))
-            {
-                System.IO.File.Delete(fileToDelete);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public IActionResult Login()
-        {
-            return View("UserLogin");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Login(UserLoginDto userLoginDto)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByEmailAsync(userLoginDto.Email);
-                if (user != null)
-                {
-                    var result = await _signInManager.PasswordSignInAsync(user, userLoginDto.Password,
-                        userLoginDto.RememberMe, false);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "E-posta adresiniz veya şifreniz yanlıştır.");
-                        return View("UserLogin");
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError("", "E-posta adresiniz veya şifreniz yanlıştır.");
-                    return View("UserLogin");
-                }
-            }
-            else
-            {
-                return View("UserLogin");
-            }
-            //return View("UserLogin");
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home", new { Area = "" });
-        }
 
         [Authorize]
         public async Task<ViewResult> ChangeDetails()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var updateDto = _mapper.Map<UserUpdateDto>(user);
+            var user = await UserManager.GetUserAsync(HttpContext.User);
+            var updateDto = Mapper.Map<UserUpdateDto>(user);
             return View(updateDto);
         }
 
 
         [Authorize]
         [HttpPost]
-        public async Task<ViewResult> ChangeDetails(UserUpdateDto updateDto)
+        public async Task<ViewResult> ChangeDetails(UserUpdateDto userUpdateDto)
         {
             if (ModelState.IsValid)
             {
                 bool isNewPictureUploaded = false;
-                var oldUser = await _userManager.GetUserAsync(HttpContext.User);
+                var oldUser = await UserManager.GetUserAsync(HttpContext.User);
                 var oldUserPicture = oldUser.Picture;
-                if (updateDto.PictureFile != null)
+                if (userUpdateDto.PictureFile != null)
                 {
-                    updateDto.Picture = await ImageUpload(updateDto.UserName, updateDto.PictureFile);
-                    if (oldUserPicture != "defaultUser.png")
+                    var uploadedImageDtoResult = await ImageHelper.Upload(userUpdateDto.UserName, userUpdateDto.PictureFile, PictureType.User);
+                    userUpdateDto.Picture = uploadedImageDtoResult.ResultStatus == ResultStatus.Success
+                        ? uploadedImageDtoResult.Data.FullName : "userImages/defaultUser.png";
+                    if (oldUserPicture != "userImages/defaultUser.png")
                     {
                         isNewPictureUploaded = true;
                     }
                 }
-                var updatedUser = _mapper.Map<UserUpdateDto, User>(updateDto, oldUser);
-                var result = await _userManager.UpdateAsync(updatedUser);
+                var updatedUser = Mapper.Map<UserUpdateDto, User>(userUpdateDto, oldUser);
+                var result = await UserManager.UpdateAsync(updatedUser);
                 if (result.Succeeded)
                 {
                     if (isNewPictureUploaded)
                     {
-                        ImageDelete(oldUserPicture);
+                        ImageHelper.Delete(oldUserPicture);
+
                     }
                     _toastNotification.AddSuccessToastMessage($"Bilgileriniz başarı ile güncellenmiştir");
-                    return View(updateDto);
+                    return View(userUpdateDto);
                 }
                 else
                 {
@@ -207,11 +122,11 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
                         ModelState.AddModelError("", error.Description);
                     }
 
-                    return View(updateDto);
+                    return View(userUpdateDto);
                 }
             }
             else
-                return View(updateDto);
+                return View(userUpdateDto);
         }
 
         [Authorize]
@@ -226,15 +141,15 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                var isVerified = await _userManager.CheckPasswordAsync(user, userPasswordChangeDto.CurrentPassword);
+                var user = await UserManager.GetUserAsync(HttpContext.User);
+                var isVerified = await UserManager.CheckPasswordAsync(user, userPasswordChangeDto.CurrentPassword);
                 if (isVerified)
                 {
-                    var result = await _userManager.ChangePasswordAsync(user, userPasswordChangeDto.CurrentPassword,
+                    var result = await UserManager.ChangePasswordAsync(user, userPasswordChangeDto.CurrentPassword,
                         userPasswordChangeDto.NewPassword);
                     if (result.Succeeded)
                     {
-                        await _userManager.UpdateSecurityStampAsync(user);
+                        await UserManager.UpdateSecurityStampAsync(user);
                         await _signInManager.SignOutAsync();
                         await _signInManager.PasswordSignInAsync(user, userPasswordChangeDto.NewPassword, true, false);
                         _toastNotification.AddSuccessToastMessage($"Şifreniz başarı ile değiştirilmiştir");
@@ -253,6 +168,13 @@ namespace BlogSolutionSystem.UI.Areas.Admin.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet]
+        public PartialViewResult GetDetail(int userId)
+        {
+            var user = UserManager.Users.SingleOrDefault(u => u.Id == userId);
+            return PartialView("_GetDetailPartial", new UserDto { User = user });
         }
     }
 }
