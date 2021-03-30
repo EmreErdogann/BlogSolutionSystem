@@ -4,7 +4,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <ol class="breadcrumb mb-3 ">
-    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Admin</a></li>
+    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Yönetim Paneli</a></li>
     <li class="breadcrumb-item active"><a asp-area="Admin" asp-controller="Category" asp-action="Index"><i class="fas fa-list-ul"></i> Kategori Listesi </a></li>
 </ol>
 @if (Model.Categories.Count != 0)
@@ -18,7 +18,7 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table-bordered  table-hover table-sm" id="categoriesTable" width="100%" cellspacing="0">
-                    <thead class="table-dark">
+                    <thead>
                         <tr>
                             <th>Id</th>
                             <th>Adı</th>
@@ -32,7 +32,7 @@
                             <th>İşlemler</th>
                         </tr>
                     </thead>
-                    <tfoot class="table-dark">
+                    <tfoot>
                         <tr>
                             <th>Id</th>
                             <th>Adı</th>

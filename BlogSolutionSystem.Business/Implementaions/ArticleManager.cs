@@ -74,7 +74,7 @@ namespace BlogSolutionSystem.Business.Implementaions
 
         public IDataResult<ArticleListDto> GetAll()
         {
-            var articles = _unitOfWork.Articles.GetAll(null, c => c.Category);
+            var articles = _unitOfWork.Articles.GetAll(null, c => c.Category, c => c.User);
             if (articles.Count > -1)
             {
                 return new DataResult<ArticleListDto>(ResultStatus.Success, new ArticleListDto
@@ -88,7 +88,7 @@ namespace BlogSolutionSystem.Business.Implementaions
 
         public IDataResult<ArticleListDto> GetAllByDeleted()
         {
-            var articles = _unitOfWork.Articles.GetAll(predicate: c => c.IsDeleted == false, includeProperties: c => c.Category);
+            var articles = _unitOfWork.Articles.GetAll(predicate: c => c.IsDeleted == false, c => c.Category, a => a.User);
             if (articles.Count > -1)
             {
                 return new DataResult<ArticleListDto>(ResultStatus.Success, new ArticleListDto
