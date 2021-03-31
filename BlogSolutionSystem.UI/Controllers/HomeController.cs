@@ -20,6 +20,7 @@ namespace BlogSolutionSystem.UI.Controllers
             return View(article.Data);
         }
 
+        
 
     }
 }

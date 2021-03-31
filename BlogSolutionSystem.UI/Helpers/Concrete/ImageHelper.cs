@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BlogSolutionSystem.Core.Utilities.Extensions;
 using BlogSolutionSystem.Core.Utilities.Results.Abstract;
@@ -47,6 +48,9 @@ namespace BlogSolutionSystem.UI.Helpers.Concrete
 
             /* Resimin uzantısı fileExtension adlı değişkene atanır. */
             string fileExtension = Path.GetExtension(pictureFile.FileName);
+
+            Regex regex = new Regex("[*'\",._&#^@]");
+            name = regex.Replace(name, string.Empty);
 
             DateTime dateTime = DateTime.Now;
             /*

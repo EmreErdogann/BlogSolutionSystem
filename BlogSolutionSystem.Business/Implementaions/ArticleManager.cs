@@ -8,6 +8,7 @@ using BlogSolutionSystem.Entities.Concrete;
 using BlogSolutionSystem.Entities.Dtos.ArticleD;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BlogSolutionSystem.Business.Implementaions
@@ -61,7 +62,7 @@ namespace BlogSolutionSystem.Business.Implementaions
 
         public IDataResult<ArticleDto> Get(int articleId)
         {
-            var article = _unitOfWork.Articles.Get(predicate: a => a.Id == articleId, includeProperties: a => a.Category);
+            var article = _unitOfWork.Articles.Get(predicate: a => a.Id == articleId, a => a.Category, a => a.User, a => a.Comments);
             if (article != null)
             {
                 return new DataResult<ArticleDto>(ResultStatus.Success, new ArticleDto
@@ -99,6 +100,16 @@ namespace BlogSolutionSystem.Business.Implementaions
             return new DataResult<ArticleListDto>(ResultStatus.Error, "Böyle bir makale bulunamadı", null);
 
         }
+
+        //public IDataResult<ArticleListDto> GetAllByViewCount(bool isAscending, int? takeSize)
+        //{
+        //    var articles = _unitOfWork.Articles.GetAll(a => a.IsDeleted == false, a => a.User);
+        //    var sortedArticles = isAscending ? articles.OrderBy(a => a.ViewsCount) : articles.OrderByDescending(x => x.ViewsCount);
+        //    return new DataResult<ArticleListDto>(ResultStatus.Success, new ArticleListDto
+        //    {
+        //        Articles = takeSize = null ? sortedArticles.ToList() : sortedArticles.Take(takeSize.Value).ToList()
+        //    });
+        //}
 
         public IDataResult<ArticleUpdateDto> GetArticleUpdate(int articleId)
         {

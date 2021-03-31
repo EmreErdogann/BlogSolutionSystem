@@ -13,6 +13,7 @@ namespace BlogSolutionSystem.Business.Interfaces
         IDataResult<ArticleUpdateDto> GetArticleUpdate(int articleId);
         IDataResult<ArticleListDto> GetAll();
         IDataResult<ArticleListDto> GetAllByDeleted();
+        //IDataResult<ArticleListDto> GetAllByViewCount(bool isAscending, int? takeSize);
         IResult Add(ArticleAddDto articleAddDto, string createdByName, int userId);
         IResult Update(ArticleUpdateDto articleUpdateDto, string modifeidByName);
         IResult Delete(int articleId, string modifiedByName);
